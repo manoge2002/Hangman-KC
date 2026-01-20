@@ -63,7 +63,7 @@ const Keyboard: React.FC<{
   disabled?: boolean;
 }> = ({ guessedLetters, onLetterClick, disabled }) => {
   return (
-    <div className="grid grid-cols-6 sm:grid-cols-10 gap-3 p-6 bg-slate-900/40 rounded-[2.5rem] shadow-2xl max-w-5xl mx-auto border border-white/5 backdrop-blur-sm">
+    <div className="grid grid-cols-7 sm:grid-cols-10 gap-3 p-6 bg-slate-900/40 rounded-[2.5rem] shadow-2xl max-w-5xl mx-auto border border-white/5 backdrop-blur-sm">
       {GERMAN_ALPHABET.map((letter) => {
         const isGuessed = guessedLetters.includes(letter);
         return (
