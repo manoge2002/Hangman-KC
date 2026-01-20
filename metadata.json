@@ -1,5 +1,5 @@
 {
-  "name": "WortHänger: German AI Hangman",
-  "description": "Standalone Hangman-Spiel mit KI-Wortgenerierung, optimiert für deutsche Umlaute und scharfes ẞ. Kein Node.js erforderlich.",
+  "name": "Hangman Konficastle",
+  "description": "Hangman Konficastle",
   "requestFramePermissions": []
 }
