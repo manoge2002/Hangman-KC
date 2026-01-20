@@ -12,6 +12,34 @@ const GERMAN_ALPHABET = [
 const INITIAL_WORDS = ['GROẞZÜGIGKEIT', 'VERGEBUNG', 'GEBET', 'RUHE', 'NÄCHSTENLIEBE', 'VERURTEILT NICHT'];
 const MAX_LIVES = 6;
 
+// --- KI Service ---
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+
+const fetchAIWord = async () => {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: "Generiere ein inspirierendes deutsches Wort oder eine kurze Phrase (max 2 Wörter) für Hangman. Das Thema ist 'Glaube und Werte'. Gib mir das Wort in Großbuchstaben (nutze ẞ statt SS), einen Hinweis und die Kategorie als JSON zurück.",
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            word: { type: Type.STRING },
+            hint: { type: Type.STRING },
+            category: { type: Type.STRING }
+          },
+          required: ["word", "hint", "category"]
+        }
+      }
+    });
+    return JSON.parse(response.text);
+  } catch (e) {
+    console.error("AI Error:", e);
+    return null;
+  }
+};
+
 // --- Komponenten ---
 
 const HangmanDrawing = ({ wrongGuesses }: { wrongGuesses: number }) => {
@@ -108,6 +136,12 @@ const App = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center py-10 px-4">
+      <header className="mb-12 text-center">
+        <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-indigo-400 to-white mb-2">
+          WortHänger
+        </h1>
+        <p className="text-slate-500 font-bold uppercase tracking-[0.3em] text-xs">Konficastle Edition</p>
+      </header>
 
       <main 
         className="w-full max-w-[1800px] grid grid-cols-1 lg:grid-cols-12 gap-8 items-start transition-transform duration-300"
@@ -123,7 +157,10 @@ const App = () => {
             <span className="text-4xl font-black text-white">{Math.max(0, MAX_LIVES - wrongGuesses)} / {MAX_LIVES}</span>
           </div>
           <div className="flex flex-col gap-2">
-            <button onClick={resetGame} className="w-full py-4 bg-slate-800 hover:bg-slate-700 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">Reset</button>
+            <button onClick={resetGame} className="w-full py-4 bg-slate-800 hover:bg-slate-700 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">Standard-Set</button>
+            <button onClick={startAIChallenge} disabled={isLoading} className="w-full py-4 bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 rounded-2xl text-xs font-black uppercase tracking-widest transition-all">
+              {isLoading ? "Generiere..." : "KI-Herausforderung"}
+            </button>
           </div>
         </div>
 
