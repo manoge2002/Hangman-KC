@@ -1,5 +1,5 @@
 {
   "name": "Hangman Konficastle",
-  "description": "Hangman Konficastle",
+  "description": "Ein reines HTML/JS Hangman Spiel für das Konficastle.",
   "requestFramePermissions": []
 }
