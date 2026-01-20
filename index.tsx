@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import ReactDOM from 'react-dom/client';
-import { GoogleGenAI, Type } from "@google/genai";
 
 // --- KONSTANTEN & TYPEN ---
 
@@ -31,10 +30,10 @@ enum GameStatus {
 
 const HangmanDrawing: React.FC<{ wrongGuesses: number }> = ({ wrongGuesses }) => {
   const strokeColor = "#f1f5f9";
-  const base = <line x1="15" y1="345" x2="285" y2="345" stroke={strokeColor} strokeWidth="6" />;
-  const pillar = <line x1="75" y1="345" x2="75" y2="30" stroke={strokeColor} strokeWidth="6" />;
-  const top = <line x1="75" y1="30" x2="210" y2="30" stroke={strokeColor} strokeWidth="6" />;
-  const rope = <line x1="210" y1="30" x2="210" y2="75" stroke={strokeColor} strokeWidth="3" />;
+  const base = <line x1="15" y1="345" x2="285" y2="345" stroke={strokeColor} strokeWidth="6" key="base" />;
+  const pillar = <line x1="75" y1="345" x2="75" y2="30" stroke={strokeColor} strokeWidth="6" key="pillar" />;
+  const top = <line x1="75" y1="30" x2="210" y2="30" stroke={strokeColor} strokeWidth="6" key="top" />;
+  const rope = <line x1="210" y1="30" x2="210" y2="75" stroke={strokeColor} strokeWidth="3" key="rope" />;
 
   const head = <circle cx="210" cy="105" r="30" stroke={strokeColor} strokeWidth="6" fill="none" key="head" />;
   const body = <line x1="210" y1="135" x2="210" y2="225" stroke={strokeColor} strokeWidth="6" key="body" />;
@@ -218,13 +217,13 @@ const App: React.FC = () => {
       <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
         <button 
           onClick={() => setScale(prev => Math.min(prev + 0.1, 2.0))}
-          className="w-10 h-10 md:w-12 md:h-12 bg-slate-800 hover:bg-slate-700 text-white rounded-xl flex items-center justify-center text-xl font-bold border border-white/10 shadow-2xl"
+          className="w-10 h-10 md:w-12 md:h-12 bg-slate-800 hover:bg-slate-700 text-white rounded-xl flex items-center justify-center text-xl font-bold border border-white/10 shadow-2xl active:scale-90 transition-all"
         >
           +
         </button>
         <button 
           onClick={() => setScale(prev => Math.max(prev - 0.1, 0.5))}
-          className="w-10 h-10 md:w-12 md:h-12 bg-slate-800 hover:bg-slate-700 text-white rounded-xl flex items-center justify-center text-xl font-bold border border-white/10 shadow-2xl"
+          className="w-10 h-10 md:w-12 md:h-12 bg-slate-800 hover:bg-slate-700 text-white rounded-xl flex items-center justify-center text-xl font-bold border border-white/10 shadow-2xl active:scale-90 transition-all"
         >
           -
         </button>
